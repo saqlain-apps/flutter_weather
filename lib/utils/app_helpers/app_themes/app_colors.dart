@@ -17,7 +17,7 @@ class AppColors {
   Color get transparent => Colors.white.withOpacity(0);
 
   // Custom Colors
-  Color get primary => const Color(0xff33BEE7);
+  Color get primary => const Color.fromARGB(255, 51, 57, 231);
   Color get secondary => const Color.fromARGB(255, 150, 218, 239);
   Color get divider => const Color(0xffEBEBEB);
   Color get disabled => Colors.blueGrey;
