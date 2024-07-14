@@ -96,7 +96,7 @@ class RawTextField extends StatelessWidget {
         ),
         counter: maxLength != null ? nothing : null,
         hintText: hintText,
-        hintStyle: AppStyles.of(context).label.colored(AppColors.grey),
+        hintStyle: AppStyles.of(context).label.cWhite,
         filled: true,
         fillColor: fillColor ?? AppColors.white.withOpacity(.7),
         labelStyle: AppStyles.of(context).label,

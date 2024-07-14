@@ -143,7 +143,8 @@ class HomeScreen extends BlocView<HomeController, HomeState> {
           value: isSearchFieldOpen ? 1 : 0,
           duration: const Duration(milliseconds: 300),
           builder: (context, animation, _, __, ___) {
-            final showSearchField = animation != 0 || !hasLocation;
+            animation = Curves.ease.transform(animation);
+            final showSearchField = animation > 0.1 || !hasLocation;
             if (showSearchField) {
               return Align(
                 alignment: Alignment.centerRight,
@@ -166,10 +167,11 @@ class HomeScreen extends BlocView<HomeController, HomeState> {
                           focusNode: focusNode,
                           controller: textEditingController,
                           onEditingComplete: onFieldSubmitted,
+                          fillColor: AppColors.white.withOpacity(.4),
                           prefixIcon: const Icon(
                             Icons.search,
                             size: 30,
-                            color: AppColors.grey,
+                            color: AppColors.white,
                           ),
                           suffixIcon: hasLocation
                               ? IconButton(
@@ -180,7 +182,7 @@ class HomeScreen extends BlocView<HomeController, HomeState> {
                                   icon: const Icon(
                                     Icons.close,
                                     size: 30,
-                                    color: AppColors.grey,
+                                    color: AppColors.white,
                                   ),
                                 )
                               : null,
