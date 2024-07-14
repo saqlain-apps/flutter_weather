@@ -1,8 +1,7 @@
 import 'dart:math' as math;
 
-import 'package:weather/_libraries/geocoding/models/place_prediction.dart';
-
 import '/_libraries/base_api_repository/base_api_repository.dart';
+import '/_libraries/geocoding/models/place_prediction.dart';
 import 'apis/google_geocode_api.dart';
 import 'apis/google_places_api.dart';
 import 'apis/google_places_autocomplete_api.dart';

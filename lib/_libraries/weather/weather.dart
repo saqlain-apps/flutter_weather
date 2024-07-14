@@ -1,6 +1,5 @@
-import 'package:weather/_libraries/base_api_repository/base_api_repository.dart';
-import 'package:weather/_libraries/geocoding/models/coordinates.dart';
-
+import '/_libraries/base_api_repository/base_api_repository.dart';
+import '/_libraries/geocoding/models/coordinates.dart';
 import 'apis/open_weather_five_day_api.dart';
 import 'models/weather_condition.dart';
 

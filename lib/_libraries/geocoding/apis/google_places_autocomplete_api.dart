@@ -1,7 +1,6 @@
-import 'package:weather/_libraries/geocoding/models/place_prediction.dart';
-
 import '/_libraries/base_api_repository/base_api.dart';
 import '/_libraries/http_services/http_services.dart';
+import '../models/place_prediction.dart';
 import 'parameters.dart';
 
 class GooglePlacesAutoCompleteApi extends BaseApi {

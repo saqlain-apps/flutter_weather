@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:weather/_libraries/geocoding/models/coordinates.dart';
+import '/_libraries/geocoding/models/coordinates.dart';
 
 mixin LocationServices {
   Future<Position> currentPosition() async {

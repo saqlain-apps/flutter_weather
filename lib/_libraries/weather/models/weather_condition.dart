@@ -1,6 +1,5 @@
-import 'package:weather/utils/app_helpers/_app_helper_import.dart';
-
 import '/_libraries/geocoding/models/coordinates.dart';
+import '/utils/app_helpers/_app_helper_import.dart';
 
 class WeatherForecast {
   const WeatherForecast({
