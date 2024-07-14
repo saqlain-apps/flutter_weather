@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:weather/_libraries/geocoding/models/coordinates.dart';
@@ -47,20 +49,31 @@ mixin LocationServices {
   Future<bool> isLocationAccessEnabled() async {
     final isLocationEnabled = await Geolocator.isLocationServiceEnabled();
     if (isLocationEnabled) {
-      final isAppPermission = await Geolocator.checkPermission();
-      switch (isAppPermission) {
-        case LocationPermission.always:
-        case LocationPermission.whileInUse:
-          return true;
-        case LocationPermission.deniedForever:
-          permissionDeniedForever(openAppSettings);
-          return false;
-        case LocationPermission.denied:
-        case LocationPermission.unableToDetermine:
-          return false;
-      }
+      return checkStatus(await Geolocator.checkPermission(), retry: true);
     }
     return false;
+  }
+
+  FutureOr<bool> checkStatus(
+    LocationPermission status, {
+    bool retry = false,
+  }) async {
+    switch (status) {
+      case LocationPermission.always:
+      case LocationPermission.whileInUse:
+        return true;
+      case LocationPermission.deniedForever:
+        permissionDeniedForever(openAppSettings);
+        return false;
+      case LocationPermission.denied:
+      case LocationPermission.unableToDetermine:
+        if (retry) {
+          status = await Geolocator.requestPermission();
+          return checkStatus(status);
+        } else {
+          return false;
+        }
+    }
   }
 
   void permissionDeniedForever(void Function() openAppSettings);

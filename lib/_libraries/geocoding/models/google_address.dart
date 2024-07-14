@@ -233,7 +233,7 @@ class GooglePlace extends GoogleAddressComponent {
     return GooglePlace(
       id: map['id'] ?? '',
       address: address.address,
-      name: map['displayName']['text'] ?? map['shortFormattedAddress'] ?? '',
+      name: map['displayName']?['text'] ?? map['shortFormattedAddress'] ?? '',
       url: map['googleMapsUri'] ?? '',
       coordinates: address.coordinates,
       plusCode: address.plusCode,
@@ -357,7 +357,7 @@ class GoogleAddressComponent extends GoogleAddressComponents {
                 ),
               )),
       "address": raw['formatted_address'] ?? raw['formattedAddress'],
-      "coordinates": raw['geometry']['location'] ??
+      "coordinates": raw['geometry']?['location'] ??
           {
             "lat": raw['location']['latitude'],
             "lng": raw['location']['longitude'],

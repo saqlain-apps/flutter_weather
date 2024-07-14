@@ -1,13 +1,15 @@
 part of 'home_controller.dart';
 
 class HomeStateStore extends BlocStateStore {
-  HomeStateStore();
+  HomeStateStore({
+    bool searchFieldOpen = false,
+  }) : searchFieldOpen = ValueNotifier(searchFieldOpen);
 
-  final TextEditingController searchController = TextEditingController();
+  final ValueNotifier<bool> searchFieldOpen;
 
   @override
   void dispose() {
-    searchController.dispose();
+    searchFieldOpen.dispose();
   }
 }
 
@@ -20,7 +22,7 @@ class HomeState extends BlocState<HomeStateStore> {
     this.location,
     this.forecast,
     HomeStateStore? store,
-  }) : super(store: store ?? HomeStateStore());
+  }) : super(store: store ?? HomeStateStore(searchFieldOpen: location == null));
 
   final GoogleAddressComponent? location;
   final WeatherForecast? forecast;

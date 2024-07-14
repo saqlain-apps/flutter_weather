@@ -29,14 +29,8 @@ abstract class BaseApi<T extends BaseApiRepository> {
     }
   }
 
-  List<Q> parseList<Q>(
-    Map<String, dynamic> json,
-    Q Function(Map<String, dynamic> map) parser,
-  ) {
-    return (json as List)
-        .cast<Map<String, dynamic>>()
-        .map((e) => parser(e))
-        .toList();
+  List<Q> parseList<Q>(List json, Q Function(Map<String, dynamic> map) parser) {
+    return json.cast<Map<String, dynamic>>().map((e) => parser(e)).toList();
   }
 
   HttpRequest createRawRequest(

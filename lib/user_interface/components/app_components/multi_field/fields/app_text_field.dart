@@ -30,6 +30,7 @@ class ValidatedAppTextField extends RawValidatedTextField
 class AppTextField extends RawTextField with _AppTextFieldMixin {
   const AppTextField({
     required super.controller,
+    super.focusNode,
     super.border,
     super.contentPadding,
     super.enabled,
@@ -44,6 +45,9 @@ class AppTextField extends RawTextField with _AppTextFieldMixin {
     super.maxLines = 1,
     super.style,
     super.suffixIcon,
+    super.prefixIcon,
+    super.onEditingComplete,
+    super.onSubmitted,
     super.obscureText,
     super.obscuringCharacter,
     super.key,

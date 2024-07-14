@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather/_libraries/geocoding/models/google_address.dart';
+import 'package:weather/_libraries/geocoding/models/place_prediction.dart';
+import 'package:weather/_libraries/task_handler/task_handler.dart';
 import 'package:weather/_libraries/weather/models/weather_condition.dart';
 import 'package:weather/repositories/location_repository/location_repository.dart';
 
@@ -19,13 +21,17 @@ class HomeController extends Bloc<HomeEvent, HomeState> {
   HomeController(this.appController)
       : super(HomeState(location: appController.state.location)) {
     printPersistent('HomeController Initialized');
+
     on<HomeSyncEvent>(sync);
     on<HomeFetchWeatherEvent>(fetchWeather);
+    on<HomeSelectLocationEvent>(selectLocation);
 
     _init();
   }
 
+  final TimedTaskHandler debouncer = TimedTaskHandler(400);
   StreamSubscription<AppState>? sub;
+  LocationRepository get locationRepo => getit.get<LocationRepository>();
 
   void _init() {
     if (state.location != null) {
@@ -65,8 +71,7 @@ class HomeController extends Bloc<HomeEvent, HomeState> {
 
       emit(state.loading(event));
 
-      final forecast = await getit
-          .get<LocationRepository>()
+      final forecast = await locationRepo
           .weatherForecastFromNow(state.location!.coordinates);
 
       emit(state.copyWith(
@@ -74,6 +79,30 @@ class HomeController extends Bloc<HomeEvent, HomeState> {
         eventStatus: state.updateStatus(event, GenericStatus.success),
         forecast: () => forecast,
       ));
+    } catch (e) {
+      emit(state.copyWith(
+        event: event,
+        eventStatus: state.updateStatus(event, GenericStatus.failure),
+        message: e.toString(),
+      ));
+    }
+  }
+
+  FutureOr<void> selectLocation(
+    HomeSelectLocationEvent event,
+    Emitter<HomeState> emit,
+  ) async {
+    try {
+      emit(state.loading(event));
+      final location = await locationRepo.fetchPlaceWithId(event.place.id);
+      emit(state.copyWith(
+        event: event,
+        eventStatus: state.updateStatus(event, GenericStatus.success),
+        location: location,
+      ));
+      if (location != null) {
+        add(const HomeFetchWeatherEvent(reset: true));
+      }
     } catch (e) {
       emit(state.copyWith(
         event: event,
@@ -100,6 +129,13 @@ class HomeController extends Bloc<HomeEvent, HomeState> {
         message: e.toString(),
       ));
     }
+  }
+
+  Future<List<PlacePrediction>> autocomplete(String query) async {
+    if (query.isEmpty) return [];
+    final res = await debouncer.handleReturn<List<PlacePrediction>?>(
+        () => locationRepo.fetchPlaceAutoComplete(query));
+    return res ?? [];
   }
 
   @override

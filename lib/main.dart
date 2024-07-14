@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather/_libraries/geocoding/location_services.dart';
-import 'package:weather/_libraries/geocoding/models/coordinates.dart';
 import 'package:weather/_libraries/geocoding/models/google_address.dart';
 import 'package:weather/repositories/location_repository/location_repository.dart';
 
@@ -32,18 +31,12 @@ class ApplicationManager extends DependencyManager {
 
   Future<void> fetchLocation() async {
     final locationRepo = getit.get<LocationRepository>();
-
-    Coordinates coordinates = const Coordinates(
-      latitude: 28.66004989999999,
-      longitude: 77.2749894,
-    );
     try {
-      coordinates = (await locationRepo.currentPosition()).coordinates;
+      final coordinates = (await locationRepo.currentPosition()).coordinates;
+      location = await locationRepo.fetchPlaceWithCoordinates(coordinates);
     } catch (e) {
-      // Permission failed, Do Nothing
+      location = null;
     }
-
-    location = await locationRepo.fetchPlaceWithCoordinates(coordinates);
   }
 
   late final GoogleAddressComponent? location;

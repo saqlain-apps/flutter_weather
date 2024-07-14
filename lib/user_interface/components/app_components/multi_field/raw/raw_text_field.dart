@@ -35,6 +35,7 @@ class RawTextField extends StatelessWidget {
     this.maxLines = 1,
     this.style,
     this.suffixIcon,
+    this.prefixIcon,
     this.obscureText,
     this.obscuringCharacter,
     this.onSubmitted,
@@ -59,6 +60,7 @@ class RawTextField extends StatelessWidget {
   final int? maxLines;
   final TextStyle? style;
   final Widget? suffixIcon;
+  final Widget? prefixIcon;
   final bool? obscureText;
   final String? obscuringCharacter;
   final void Function(String)? onSubmitted;
@@ -85,6 +87,8 @@ class RawTextField extends StatelessWidget {
       textInputAction: inputAction ?? TextInputAction.next,
       obscuringCharacter: obscuringCharacter ?? '•',
       obscureText: obscureText ?? false,
+      onEditingComplete: onEditingComplete,
+      onSubmitted: onSubmitted,
       decoration: InputDecoration(
         contentPadding: EdgeInsets.symmetric(
           vertical: 2.h,
@@ -99,6 +103,7 @@ class RawTextField extends StatelessWidget {
         labelText: label,
         floatingLabelBehavior: FloatingLabelBehavior.never,
         suffixIcon: suffixIcon,
+        prefixIcon: prefixIcon,
         border: effectiveBorder,
         enabledBorder: effectiveBorder,
         focusedBorder: focusedBorder ?? effectiveFocusedBorder(effectiveBorder),

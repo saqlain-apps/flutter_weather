@@ -15,6 +15,7 @@ class SearchTextField extends RawTextField with _AppTextFieldMixin {
     super.maxLength,
     super.maxLines = 1,
     super.style,
+    super.prefixIcon,
     super.obscureText,
     super.obscuringCharacter,
     super.onSubmitted,

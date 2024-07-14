@@ -1,35 +1,25 @@
+import 'package:weather/_libraries/geocoding/models/place_prediction.dart';
+
 import '/_libraries/base_api_repository/base_api.dart';
 import '/_libraries/http_services/http_services.dart';
-import '../models/coordinates.dart';
-import '../models/google_address.dart';
-
-enum LocationFilterType { bias, restrict }
-
-class LocationFilter {
-  const LocationFilter({
-    required this.center,
-    required this.radius,
-    required this.type,
-  });
-
-  final Coordinates center;
-  final double radius;
-  final LocationFilterType type;
-}
+import 'parameters.dart';
 
 class GooglePlacesAutoCompleteApi extends BaseApi {
   const GooglePlacesAutoCompleteApi(super.repository);
 
-  Future<List<GooglePlace>?> call(
+  Future<List<PlacePrediction>?> call(
     String query,
     String apiKey, {
     LocationFilter? filter,
   }) async {
     var res = await raw(query, apiKey, filter);
-    return properResponse<List<GooglePlace>>(
+    return properResponse<List<PlacePrediction>>(
       res,
       statusCode: {200},
-      parser: (json) => parseList(json['places'], GooglePlace.fromMap),
+      parser: (json) => parseList(
+        json['suggestions'],
+        (map) => PlacePrediction.fromMap(map['placePrediction']),
+      ),
     );
   }
 
@@ -44,19 +34,7 @@ class GooglePlacesAutoCompleteApi extends BaseApi {
         headers: {"X-Goog-Api-Key": apiKey},
         body: {
           "input": query,
-          if (filter != null)
-            switch (filter.type) {
-              LocationFilterType.bias => "locationBias",
-              LocationFilterType.restrict => "locationRestriction",
-            }: {
-              "circle": {
-                "center": {
-                  "latitude": filter.center.latitude,
-                  "longitude": filter.center.longitude,
-                },
-                "radius": filter.radius,
-              }
-            },
+          if (filter != null) ...filter.toMap(),
         },
       ),
     );

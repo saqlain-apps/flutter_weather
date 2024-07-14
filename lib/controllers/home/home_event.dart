@@ -17,3 +17,8 @@ class HomeFetchWeatherEvent extends HomeEvent {
   const HomeFetchWeatherEvent({this.reset = false});
   final bool reset;
 }
+
+class HomeSelectLocationEvent extends HomeEvent {
+  const HomeSelectLocationEvent(this.place);
+  final PlacePrediction place;
+}
