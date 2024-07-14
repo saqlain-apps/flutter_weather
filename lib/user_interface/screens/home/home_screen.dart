@@ -68,6 +68,7 @@ class HomeScreen extends BlocView<HomeController, HomeState> {
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: RefreshIndicator.adaptive(
                     color: AppColors.white,
+                    backgroundColor: AppColors.of(context).secondary,
                     onRefresh: () async {
                       await context
                           .read<AppController>()
