@@ -27,47 +27,6 @@ mixin _PasswordFieldMixin on RawTextField {
   }
 }
 
-class ValidatedPasswordField extends RawValidatedTextField
-    with _PasswordFieldMixin {
-  ValidatedPasswordField({
-    required super.controller,
-    super.border,
-    super.contentPadding,
-    super.enabled,
-    super.fillColor,
-    super.focusedBorder,
-    super.hintText,
-    super.inputAction,
-    super.inputFormatters,
-    super.keyboardType,
-    super.label,
-    super.maxLength,
-    super.maxLines = 1,
-    super.style,
-    super.obscuringCharacter,
-    super.showErrorText = true,
-    super.key,
-  });
-
-  @override
-  Widget buildValidation(BuildContext context, ValidationError error) {
-    final hasError = error.errorState.isError;
-    final color = hasError ? AppColors.red : null;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        buildVisibilitySwitch(
-          context,
-          buildErrorTextField(context, error),
-          color,
-        ),
-        if (showErrorText) TextFieldError(error)
-      ],
-    );
-  }
-}
-
 class PasswordField extends RawTextField with _PasswordFieldMixin {
   const PasswordField({
     required super.controller,

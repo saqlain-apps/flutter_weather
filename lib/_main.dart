@@ -3,8 +3,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 import '/_libraries/widgets/notification_messenger/notification_manager.dart';
 import '/controllers/app/app_controller.dart';
-import '/global/app_config.dart';
-import '_libraries/console/console_manager.dart';
 import '_libraries/geocoding/models/google_address.dart';
 import 'utils/app_helpers/_app_helper_import.dart';
 import 'utils/app_helpers/app_themes/theme_store.dart';
@@ -50,14 +48,6 @@ class App extends StatelessWidget {
           ),
           builder: (context, child) {
             var result = child ?? nothing;
-            if (AppKeys.debug) {
-              result = ConsoleView(
-                manager: getit.get<ConsoleManager>(),
-                options: (context, manager, refresh) =>
-                    AppConfigSwitcher(refreshConsole: refresh),
-                child: result,
-              );
-            }
             return NotificationManager(
               controller: Messenger().notificationMessenger,
               child: result,

@@ -5,7 +5,6 @@ import 'package:weather/_libraries/geocoding/location_services.dart';
 import 'package:weather/_libraries/geocoding/models/google_address.dart';
 import 'package:weather/repositories/location_repository/location_repository.dart';
 
-import '/_libraries/web_functions/web_functions.dart';
 import '/controllers/app_bloc_observer.dart';
 import '/utils/app_helpers/_app_helper_import.dart';
 import '_main.dart';
@@ -25,7 +24,6 @@ class ApplicationManager extends DependencyManager {
   FutureOr<void> configureApp() async {
     await fetchLocation();
     Bloc.observer = AppBlocObserver();
-    WebFunctions().configureUrl();
     Messenger().appNavigator.init(AppRoutes.home.name);
   }
 
