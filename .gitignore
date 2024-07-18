@@ -46,7 +46,6 @@
 
 # iOS related
 **/ios/build/**
-.vscode/
 ios/.symlinks
 ios/Flutter/Generated.xcconfig
 ios/Runner.xcodeproj/xcuserdata/
@@ -76,4 +75,4 @@ app.*.map.json
 /android/app/devDebugGooglePlay
 
 # Custom
-.app-cache
+tasks.*
